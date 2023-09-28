@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -24,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
@@ -36,7 +38,7 @@ fun ProfileScreen(navController: NavController, viewModel: LoginViewModel){
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column(
             horizontalAlignment = Alignment.Start,
@@ -58,21 +60,20 @@ fun ProfileScreen(navController: NavController, viewModel: LoginViewModel){
         Spacer(modifier = Modifier.height(5.dp))
 
         Button(
+
             onClick = { },
+
             modifier = Modifier
-                .wrapContentWidth()
-                .background(
-                    Color(0xFF6650a4),
-                    shape = CircleShape
-                ),
-            colors = ButtonDefaults.buttonColors(
+                .height(48.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3172D4),
+                disabledContainerColor = Color(0xFF3172D4),
                 contentColor = Color.White
-            ),
+            )
         ) {
             Text(text = "Change profile picture")
         }
         Text(
-            text = "Natalia Gomez",
+            text = "Elizabeth James",
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF6650a4),
@@ -107,16 +108,22 @@ fun ProfileScreen(navController: NavController, viewModel: LoginViewModel){
             Button(
                 onClick = { /* Handle Profile Settings click */ },
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3172D4),
+                    disabledContainerColor = Color(0xFF3172D4),
+                    contentColor = Color.White
+                )
             ) {
                 Text(text = "Profile Settings")
             }
             Button(
                 onClick = { /* Handle App Settings click */ },
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 8.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3172D4),
+                    disabledContainerColor = Color(0xFF3172D4),
+                    contentColor = Color.White
+                )
             ) {
                 Text(text = "App Settings")
             }
@@ -126,6 +133,12 @@ fun ProfileScreen(navController: NavController, viewModel: LoginViewModel){
 
 @Composable
 fun ProfileUpdateCard() {
+    var name by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("")}
+    var confirmpass by remember { mutableStateOf("")}
+    var currentpass by remember { mutableStateOf("")}
+    var newpass by remember { mutableStateOf("")}
+    var phone by remember { mutableStateOf("")}
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -149,8 +162,10 @@ fun ProfileUpdateCard() {
                     color = Color.Black
                 )
                 BasicTextField(
-                    value = "",
-                    onValueChange = { },
+                    value = name,
+                    onValueChange = { newName ->
+                        name = newName
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
@@ -163,8 +178,10 @@ fun ProfileUpdateCard() {
                     color = Color.Black
                 )
                 BasicTextField(
-                    value = "",
-                    onValueChange = { },
+                    value = email,
+                    onValueChange = { Email ->
+                        email = Email
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
@@ -178,8 +195,10 @@ fun ProfileUpdateCard() {
                     color = Color.Black
                 )
                 BasicTextField(
-                    value = "",
-                    onValueChange = { },
+                    value = confirmpass,
+                    onValueChange = { Confirm ->
+                        confirmpass = Confirm
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
@@ -199,8 +218,10 @@ fun ProfileUpdateCard() {
                     color = Color.Black
                 )
                 BasicTextField(
-                    value = "",
-                    onValueChange = { },
+                    value = currentpass,
+                    onValueChange = { Current ->
+                        currentpass = Current
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
@@ -213,8 +234,10 @@ fun ProfileUpdateCard() {
                     color = Color.Black
                 )
                 BasicTextField(
-                    value = "",
-                    onValueChange = { },
+                    value = newpass,
+                    onValueChange = { NewPass ->
+                        newpass = NewPass
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
@@ -225,28 +248,48 @@ fun ProfileUpdateCard() {
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
                     color = Color.Black
+
                 )
                 BasicTextField(
-                    value = "",
-                    onValueChange = { },
+                    value = phone,
+                    onValueChange = { newPhone ->
+                        // Validar que el nuevo valor ingresado sea numérico
+                        if (newPhone.all { it.isDigit() }) {
+                            phone = newPhone
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
-                        .border(1.dp, Color.Black)
+                        .border(1.dp, Color.Black),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
+            }
+        }
+        Row(
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .align(Alignment.CenterHorizontally) // Centrar horizontalmente
+        ) {
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF3172D4),
+                    disabledContainerColor = Color(0xFF3172D4),
+                    contentColor = Color.White
+                )
+            ) {
+                Text(
+                    text = "Save Changes",
+                    color = Color.White
                 )
             }
         }
-        Button(
-            onClick = { },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-                .background(Color(0xFF6650a4), shape = CircleShape)
-        ) {
-            Text(
-                text = "Save Changes",
-                color = Color.White
-            )
-        }
+
     }
 }
