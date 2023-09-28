@@ -13,10 +13,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -32,6 +37,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -207,7 +214,7 @@ fun SingUpButton(navController: NavController) {
 @Composable
 fun SignUptext(modifier : Modifier ){
     Text(
-        text = "Sing Up",
+        text = "Sign Up",
         fontSize = 14.sp,
         fontWeight = FontWeight.Bold,
         color= Color(0xFF080809)
@@ -237,7 +244,7 @@ fun Namefield(name:String,onTextFieldChanged:(String)->Unit){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewPassword(newpassword: String, onTextFieldChanged: (String) -> Unit) {
-
+    var isPasswordVisible by remember { mutableStateOf(false) }
     TextField(
         value = newpassword,
         onValueChange = { onTextFieldChanged(it) },
@@ -246,20 +253,32 @@ fun NewPassword(newpassword: String, onTextFieldChanged: (String) -> Unit) {
             .widthIn(max = 20.dp), // Ajusta el ancho máximo según tu preferencia
         placeholder = {
             Text(
-                text = "Newpassword",
+                text = "Confirm Password",
                 style = TextStyle(
                     color = Color(0xFF636262),
-                    fontSize = 12.sp
+                    fontSize = 16.sp
                 )
             )
         },
+        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         singleLine = true,
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color(0xFF636262),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
-        )
+        ),
+        trailingIcon = {
+            IconButton(
+                onClick = { isPasswordVisible = !isPasswordVisible },
+            ) {
+                Icon(
+                    imageVector = if (isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                    contentDescription = if (isPasswordVisible) "Hide Password" else "Show Password",
+                    tint = Color.Gray
+                )
+            }
+        }
 
     )
 }
