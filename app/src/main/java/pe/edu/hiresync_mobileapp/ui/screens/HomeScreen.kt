@@ -20,20 +20,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,7 +43,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
 import java.util.Calendar
 
@@ -120,7 +114,7 @@ fun HomeScreen(navController: NavController, viewModel: LoginViewModel) {
                     )
                 }
                 ScheduleCard(
-                    "Testigos de Vue Recruitment",
+                    "HireSync",
                     "Psychometric test pending",
                     "Deadline 2023/04/15 11:59pm",
                     color = Color(0xFFEA614E)
@@ -164,7 +158,7 @@ fun HomeScreen(navController: NavController, viewModel: LoginViewModel) {
                     )
                 }
                 ActiveJobsCard(
-                    "Testigos de Vue Recruitment",
+                    "HireSync",
                     "Test Phase",
                     color = Color(0xFFEA614E)
                 )
@@ -326,43 +320,6 @@ fun DatePicker() {
     }
 }
 
-@Composable
-fun NavBar(navController: NavController){
-
-    var expanded by remember { mutableStateOf(false) }
-
-    val options = listOf(
-        "Home",
-        "Profile",
-        "Log Out",
-    )
-
-    IconButton(onClick = { expanded =!expanded},) {
-        Icon(
-            imageVector = Icons.Default.Menu,
-            contentDescription = null,
-        )
-    }
-
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false }) {
-
-        options.forEach{ option->
-            DropdownMenuItem(
-                text = { Text(text = option) },
-                onClick = {
-                    when (option){
-                        "Home" -> navController.navigate("home_screen")
-                        "Perfil" -> navController.navigate("sing_in_screen")
-                        "Log Out" -> navController.navigate("sing_up_screen")
-                    }
-                    expanded = false}
-            )
-
-        }
-    }
-}
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
