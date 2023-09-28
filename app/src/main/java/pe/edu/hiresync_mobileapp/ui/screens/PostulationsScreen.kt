@@ -1,4 +1,4 @@
-package pe.edu.hiresync_mobileapp.ui.Postulations
+package pe.edu.hiresync_mobileapp.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -30,22 +29,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
 
 @Composable
-fun PostulationsView() {
+fun PostulationsScreen(navController: NavController, viewModel: LoginViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF5F9FF))
     ) {
-        Navbar()
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Blue)
+
+        ) {
+            NavBar(navController)
+        }
         PostulationsContent()
     }
-}
-
-@Composable
-fun Navbar() {
-    Text(text = "NavBar", modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
@@ -101,9 +105,9 @@ fun PostulationsContent() {
             }
         }
         CompanyCard(
-            name = "Testigos de Vue",
+            name = "HireSync",
             description = "2023-Business Administration UPC Internship Program Recruitment",
-            recruitmentStatus = "Testing",
+            recruitmentStatus = "Interview",
             applicationDate = "04/02/2023 11:00 AM"
         )
         CompanyCard(
@@ -159,7 +163,7 @@ fun CompanyCard(
                     .fillMaxWidth()
                     .height(65.dp)
             ) {
-                Column() {
+                Column {
                     Text(
                         text = "Description:",
                         color = Color.White,
@@ -186,7 +190,7 @@ fun CompanyCard(
                         .padding(4.dp)
                         .height(50.dp)
                 ) {
-                    Column() {
+                    Column{
                         Text(
                             text = "Recruitment Status:",
                             color = Color.White,
