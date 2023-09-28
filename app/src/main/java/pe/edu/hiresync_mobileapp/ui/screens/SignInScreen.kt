@@ -48,13 +48,13 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel){
         Modifier
             .fillMaxSize()
             .padding(16.dp)){
-        Longin(Modifier.align(Alignment.Center),navController,viewModel)
+        Login(Modifier.align(Alignment.Center),navController,viewModel)
     }
 
 }
 
 @Composable
-fun Longin(modifier: Modifier,navController: NavController, viewModel: LoginViewModel) {
+fun Login(modifier: Modifier,navController: NavController, viewModel: LoginViewModel) {
     val email : String by viewModel.email.observeAsState(initial = "")
     val password: String by viewModel.password.observeAsState(initial ="")
     val loginEnable: Boolean by viewModel.loginEnable.observeAsState(initial = false)
