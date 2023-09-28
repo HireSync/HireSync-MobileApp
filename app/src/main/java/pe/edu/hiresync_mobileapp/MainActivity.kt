@@ -19,7 +19,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import pe.edu.hiresync_mobileapp.ui.home.Home
+import pe.edu.hiresync_mobileapp.ui.navigation.AppNavigation
 import pe.edu.hiresync_mobileapp.ui.theme.HireSyncMobileAppTheme
+import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +34,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                         Home()
+
+                    AppNavigation(LoginViewModel())
                 }
             }
         }
@@ -56,5 +60,4 @@ fun GreetingPreview() {
         Home()
     }
 }
-
 
