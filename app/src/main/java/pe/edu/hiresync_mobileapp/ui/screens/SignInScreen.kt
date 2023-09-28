@@ -130,7 +130,7 @@ fun LoginButton(navController: NavController) {
 @Composable
 fun Signtext(modifier : Modifier ){
     Text(
-        text = "Sing In",
+        text = "Sign In",
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
         color= Color(0xFF3172D4)
