@@ -47,11 +47,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
 import java.util.Calendar
 
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController, viewModel: LoginViewModel) {
 
     val cornerShape: Shape = CutCornerShape(16.dp) // Radio de esquina de 16dp
 
@@ -62,10 +65,12 @@ fun HomeScreen() {
     ) {
         Column(
             horizontalAlignment = Alignment.Start,
-            modifier = Modifier.fillMaxWidth().background(Color.Blue)
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Blue)
 
         ) {
-            NavBar()
+            NavBar(navController)
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -322,16 +327,14 @@ fun DatePicker() {
 }
 
 @Composable
-fun NavBar(){
+fun NavBar(navController: NavController){
 
     var expanded by remember { mutableStateOf(false) }
 
     val options = listOf(
-        "Home",
-        "About",
-        "Contact",
-        "Login",
-        "Register"
+        "home_screen",
+        "sing_in_screen",
+        "sing_up_screen",
     )
 
     IconButton(onClick = { expanded =!expanded},) {
@@ -348,7 +351,9 @@ fun NavBar(){
         options.forEach{ option->
             DropdownMenuItem(
                 text = { Text(text = option) },
-                onClick = {  }
+                onClick = {
+                    navController.navigate(option)
+                    expanded = false}
             )
 
         }
@@ -357,5 +362,7 @@ fun NavBar(){
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
+/*
     HomeScreen()
+*/
 }

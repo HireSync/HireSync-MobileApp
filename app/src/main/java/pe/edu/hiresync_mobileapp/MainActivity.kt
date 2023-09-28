@@ -55,7 +55,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     HireSyncMobileAppTheme {
-        Home()
+        AppNavigation(LoginViewModel())
     }
 }
 
