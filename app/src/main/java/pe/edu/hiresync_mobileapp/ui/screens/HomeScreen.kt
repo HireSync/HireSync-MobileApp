@@ -332,9 +332,9 @@ fun NavBar(navController: NavController){
     var expanded by remember { mutableStateOf(false) }
 
     val options = listOf(
-        "home_screen",
-        "sing_in_screen",
-        "sing_up_screen",
+        "Home",
+        "Profile",
+        "Log Out",
     )
 
     IconButton(onClick = { expanded =!expanded},) {
@@ -352,7 +352,11 @@ fun NavBar(navController: NavController){
             DropdownMenuItem(
                 text = { Text(text = option) },
                 onClick = {
-                    navController.navigate(option)
+                    when (option){
+                        "Home" -> navController.navigate("home_screen")
+                        "Perfil" -> navController.navigate("sing_in_screen")
+                        "Log Out" -> navController.navigate("sing_up_screen")
+                    }
                     expanded = false}
             )
 
