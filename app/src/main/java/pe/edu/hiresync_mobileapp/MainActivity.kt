@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import pe.edu.hiresync_mobileapp.ui.navigation.AppNavigation
 import pe.edu.hiresync_mobileapp.ui.theme.HireSyncMobileAppTheme
 import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
+import pe.edu.hiresync_mobileapp.ui.viewModel.PostulationViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation(LoginViewModel())
+                    AppNavigation(LoginViewModel(), PostulationViewModel())
                 }
             }
         }
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     HireSyncMobileAppTheme {
-        AppNavigation(LoginViewModel())
+        AppNavigation(LoginViewModel(),PostulationViewModel())
     }
 }
 
