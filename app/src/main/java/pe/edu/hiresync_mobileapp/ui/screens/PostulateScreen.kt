@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -83,7 +84,7 @@ fun PostulationCard(postulation: Postulation) {
             .padding(8.dp)
             .background(Color.White)
             .border(1.dp, Color.Gray, shape = RoundedCornerShape(8.dp))
-            //.clickable {  }
+            //.clickable { }
             .shadow(4.dp)
     ) {
         Column(
@@ -124,21 +125,24 @@ fun PostulationCard(postulation: Postulation) {
                 fontSize = 12.sp,
                 color = Color.Gray
             )
-            Row (modifier = Modifier.padding(top = 8.dp)){
-                // Si no hay más detalles, se puede eliminar el botón "View Details"
-                Button(onClick = { /* Acción para ver más detalles */ }) {
-                    Text(text = "View Details")
+            Row(modifier = Modifier.padding(top = 8.dp)) {
+                Button(
+                    onClick = { },
+                    colors = ButtonDefaults.buttonColors(Color(0xFF3172D4))
+                ) {
+                    Text(text = "View Details", color = Color.White) // Color del texto en blanco
                 }
+
                 TextButton(
                     onClick = {
                         if (!isApplied.value) {
                             isApplied.value = true
                         }
-                    }
+                    },
+                    colors = ButtonDefaults.textButtonColors(contentColor = Color(0xFF3172D4))
                 ) {
-                    Text(text = "Apply")
+                    Text(text = "Apply", color = Color(0xFF3172D4))
                 }
-
             }
         }
     }
