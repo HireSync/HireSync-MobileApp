@@ -1,15 +1,15 @@
 package pe.edu.hiresync_mobileapp.repository
 
 import pe.edu.hiresync_mobileapp.data.model.Postulation
+import pe.edu.hiresync_mobileapp.data.model.PostulationResponse
 import pe.edu.hiresync_mobileapp.data.remote.PostulationClient
-import pe.edu.hiresync_mobileapp.data.remote.PostulationResponse
 import pe.edu.hiresync_mobileapp.data.remote.PostulationService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import pe.edu.hiresync_mobileapp.utils.Result
 
-data class PostulationRepository(
+class PostulationRepository(
     private val postulationService: PostulationService = PostulationClient.getPostulationService(),
 
     ){
