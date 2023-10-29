@@ -10,10 +10,9 @@ import retrofit2.Response
 import pe.edu.hiresync_mobileapp.utils.Result
 
 class PostulationRepository(
-    private val postulationService: PostulationService = PostulationClient.getPostulationService(),
-
-    ){
-    fun getByAll(callback: (Result<List<Postulation>>)->Unit ){
+    private val postulationService: PostulationService = PostulationClient.getPostulationService()
+){
+    fun getAll(callback: (Result<List<Postulation>>)->Unit ){
         val getAll = postulationService.getAll()
 
         getAll.enqueue(object : Callback<PostulationResponse> {
@@ -24,7 +23,7 @@ class PostulationRepository(
             }
 
             override fun onFailure(call: Call<PostulationResponse>, t: Throwable) {
-                callback(Result.Error(t.localizedMessage))
+                callback(Result.Error(message = t.localizedMessage!!))
             }
 
         })

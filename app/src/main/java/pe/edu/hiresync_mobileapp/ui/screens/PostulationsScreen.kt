@@ -49,7 +49,8 @@ import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
 import pe.edu.hiresync_mobileapp.ui.viewModel.PostulationViewModel
 
 @Composable
-fun PostulationsScreen(navController: NavController, viewModel: PostulationViewModel) {
+fun PostulationsScreen(viewModel: PostulationViewModel) {
+
     val postulations: List<Postulation> by viewModel.postulations.observeAsState(listOf())
     viewModel.getAll()
     LazyColumn {
@@ -57,8 +58,6 @@ fun PostulationsScreen(navController: NavController, viewModel: PostulationViewM
             CharacterCard(postulation)
         }
     }
-
-    NavBar(navController)
 }
 
 @Composable
@@ -71,8 +70,8 @@ fun CharacterCard(postulation: Postulation) {
                 .padding(8.dp)
         ) {
             Column(modifier = Modifier.weight(5f)) {
-                Text(text = "Name: "+postulation.Name)
-                Text(text = postulation.Description)
+                Text(text = "Name: "+postulation.name)
+                Text(text = "Description: "+postulation.id.toString())
             }
         }
     }

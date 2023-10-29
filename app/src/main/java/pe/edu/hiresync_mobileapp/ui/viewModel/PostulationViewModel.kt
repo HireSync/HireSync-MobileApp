@@ -10,7 +10,7 @@ class PostulationViewModel(private val postulationRepository: PostulationReposit
     private var _postulations = MutableLiveData<List<Postulation>>()
     val postulations get() = _postulations
     fun getAll() {
-        postulationRepository.getByAll { result ->
+        postulationRepository.getAll { result ->
             if (result is Result.Success) {
                 _postulations.value = result.data!!
             }

@@ -4,7 +4,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object PostulationClient {
-    private const val API_BASE_URL = "http://deploymoviles1-001-site1.btempurl.com/api/v1/recruitment/processes/"
+    private const val API_BASE_URL = "https://electric-difficult-liquid.glitch.me/"
+    //private const val API_BASE_URL = "https://rickandmortyapi.com/api/"
 
     private var postulationService: PostulationService? = null
 
