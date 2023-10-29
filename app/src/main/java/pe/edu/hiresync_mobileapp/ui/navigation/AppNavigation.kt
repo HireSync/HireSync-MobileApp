@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import pe.edu.hiresync_mobileapp.data.model.Postulation
 import pe.edu.hiresync_mobileapp.ui.screens.HomeScreen
 import pe.edu.hiresync_mobileapp.ui.screens.LoginScreen
 import pe.edu.hiresync_mobileapp.ui.screens.PostulationsScreen
@@ -31,7 +30,7 @@ fun AppNavigation(viewModel: LoginViewModel, viewModel2: PostulationViewModel){
         }
 
         composable(route=AppScreens.PostulationScreen.route){
-            //PostulationsScreen(navController, viewModel2)
+            PostulationsScreen(navController, viewModel2)
         }
 
         composable(route=AppScreens.ProfileScreen.route){
