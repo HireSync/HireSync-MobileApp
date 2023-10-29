@@ -1,43 +1,50 @@
 package pe.edu.hiresync_mobileapp.ui.screens
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-
+import pe.edu.hiresync_mobileapp.data.model.Postulation
+import pe.edu.hiresync_mobileapp.ui.viewModel.PostulationViewModel
 
 @Composable
-fun PostulationsScreen(navController: NavController) {
+fun PostulationsScreen(navController: NavController, viewModel: PostulationViewModel) {
+
+    val postulations: List<Postulation> by viewModel.postulations.observeAsState(listOf())
+    viewModel.getAll()
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF5F9FF))
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column(
             horizontalAlignment = Alignment.Start,
@@ -48,77 +55,99 @@ fun PostulationsScreen(navController: NavController) {
         ) {
             NavBar(navController)
         }
-        PostulationsContent()
+        Column{
+            LazyColumn {
+                items(postulations) { postulation ->
+                    PostulationCard(postulation, navController)
+                }
+            }
+        }
     }
+
 }
 
 @Composable
-fun PostulationsContent() {
-    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text = "Recruitments",
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp,
-            modifier = Modifier.padding(5.dp)
-        )
-        Text(
-            text = "Click in the list to see details",
-            fontWeight = FontWeight.Bold,
-            fontSize = 12.sp,
-            modifier = Modifier.padding(5.dp)
-        )
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            Box(
+fun PostulationCard(postulation: Postulation, navController: NavController) {
+    val isApplied = remember { mutableStateOf(false) }
+    isApplied.value = postulation.isApplied
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .background(Color.White)
+                .border(1.dp, Color.Gray, shape = RoundedCornerShape(8.dp))
+                //.clickable { }
+                .shadow(4.dp)
+        ) {
+            Column(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 20.dp, vertical = 4.dp)
-                    .background(Color.White, shape = RoundedCornerShape(20.dp)),
-
-
-                ) {
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Filter by",
-                        modifier = Modifier
-                            .wrapContentWidth(),
-                        textAlign = TextAlign.Center
+                        text = postulation.name,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    Icon(
-                        Icons.Default.KeyboardArrowDown,
-                        null,
-                        modifier = Modifier.padding(4.dp),
-                        tint = Color.Black
-                    )
+                    if (isApplied.value) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Applied",
+                            tint = Color.Green
+                        )
+                    }
+                }
+                Text(text = postulation.description, fontSize = 14.sp, color = Color.Gray)
+                Text(
+                    text = "Application Date: ${postulation.applicationDate}",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+
+                // Detalles adicionales
+                Text(text = "Location: ${postulation.location}", fontSize = 12.sp, color = Color.Gray)
+                Text(text = "Salary: ${postulation.salary}", fontSize = 12.sp, color = Color.Gray)
+                Text(
+                    text = "Contract Type: ${postulation.contractType}",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+                Row(modifier = Modifier.padding(top = 8.dp)) {
+                    Button(
+                        onClick = { },
+                        colors = ButtonDefaults.buttonColors(Color(0xFF3172D4))
+                    ) {
+                        Text(text = "View Details", color = Color.White) // Color del texto en blanco
+                    }
+
+                    TextButton(
+                        onClick = {
+                            if (!isApplied.value) {
+                                isApplied.value = true
+                            }
+                        },
+                        colors = ButtonDefaults.textButtonColors(contentColor = Color(0xFF3172D4))
+                    ) {
+                        Text(text = "Apply", color = Color(0xFF3172D4))
+                    }
                 }
             }
-            Box(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "See past recruitments",
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .background(Color.White, shape = RoundedCornerShape(20.dp))
-                        .padding(horizontal = 15.dp, vertical = 4.dp),
-                )
-            }
         }
-        CompanyCard(
-            name = "HireSync",
-            description = "2023-Business Administration UPC Internship Program Recruitment",
-            recruitmentStatus = "Interview",
-            applicationDate = "04/02/2023 11:00 AM"
-        )
-        CompanyCard(
-            name = "Mercado Libre",
-            description = "IT Support Mercado Libre Trainee Program",
-            recruitmentStatus = "Application Date",
-            applicationDate = "24/06/2023 1:30 PM"
-        )
     }
 }
 
+/*
 @Composable
 fun CompanyCard(
     name: String,
@@ -232,4 +261,4 @@ fun CompanyCard(
             }
         }
     }
-}
+}*/
