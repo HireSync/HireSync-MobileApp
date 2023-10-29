@@ -57,7 +57,6 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel){
 fun Login(modifier: Modifier,navController: NavController, viewModel: LoginViewModel) {
     val email : String by viewModel.email.observeAsState(initial = "")
     val password: String by viewModel.password.observeAsState(initial ="")
-    val loginEnable: Boolean by viewModel.loginEnable.observeAsState(initial = false)
     val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
 
 
@@ -83,7 +82,7 @@ fun Login(modifier: Modifier,navController: NavController, viewModel: LoginViewM
             Spacer(modifier = Modifier.padding(8.dp))
             ForgotPassword(Modifier.align(Alignment.End))
             Spacer(modifier = Modifier.padding(16.dp))
-            LoginButton(navController)
+            LoginButton(navController,viewModel)
             Spacer(modifier = Modifier.padding(32.dp))
             Register(navController,Modifier.align(Alignment.CenterHorizontally))
 
@@ -112,21 +111,26 @@ fun Register(navController: NavController,modifier : Modifier){
 
 }
 @Composable
-fun LoginButton(navController: NavController) {
+fun LoginButton(navController: NavController, viewModel: LoginViewModel) {
+
+
     Button(
         onClick = { navController.navigate(route = AppScreens.HomeScreen.route)},
         modifier = Modifier
             .fillMaxWidth()
             .height(48.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3172D4),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF3172D4),
             disabledContainerColor = Color(0xFF3172D4),
             contentColor = Color.White
         )
     ) {
         Text(text = "Login in")
-
     }
+
 }
+
+
 @Composable
 fun Signtext(modifier : Modifier ){
     Text(

@@ -48,7 +48,7 @@ import java.util.Calendar
 
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: LoginViewModel) {
+fun HomeScreen(navController: NavController) {
 
     val cornerShape: Shape = CutCornerShape(16.dp) // Radio de esquina de 16dp
 

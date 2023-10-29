@@ -25,15 +25,15 @@ fun AppNavigation(viewModel: LoginViewModel){
         }
 
         composable(route=AppScreens.HomeScreen.route){
-            HomeScreen(navController,viewModel)
+            HomeScreen(navController)
         }
 
         composable(route=AppScreens.PostulationScreen.route){
-            PostulationsScreen(navController, viewModel)
+            PostulationsScreen(navController)
         }
 
         composable(route=AppScreens.ProfileScreen.route){
-            ProfileScreen(navController, viewModel)
+            ProfileScreen(navController)
         }
     }
 }

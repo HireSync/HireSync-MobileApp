@@ -30,10 +30,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
+
 
 @Composable
-fun PostulationsScreen(navController: NavController, viewModel: LoginViewModel) {
+fun PostulationsScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()

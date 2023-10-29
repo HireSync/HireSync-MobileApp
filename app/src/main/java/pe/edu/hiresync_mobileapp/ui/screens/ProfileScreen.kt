@@ -28,10 +28,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
+
 
 @Composable
-fun ProfileScreen(navController: NavController, viewModel: LoginViewModel){
+fun ProfileScreen(navController: NavController){
     var receiveNews by remember { mutableStateOf(false) }
 
     Column(
