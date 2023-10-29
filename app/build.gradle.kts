@@ -73,7 +73,31 @@ dependencies {
     implementation ("androidx.compose.material:material-icons-core")
     implementation ("androidx.compose.material:material-icons-extended")
 
+    implementation("androidx.compose.runtime:runtime-livedata")
+
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+
+    implementation("com.github.skydoves:landscapist-glide:2.1.9")
 
 
+    val coilVersion = "2.3.0"
+    implementation("io.coil-kt:coil-compose:$coilVersion")
 
+    val room_version = "2.5.2"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    val lifecycleVersion = "2.6.1"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:${lifecycleVersion}")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${lifecycleVersion}")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycleVersion}")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${lifecycleVersion}")
+
+    val retrofitVersion= "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 }
