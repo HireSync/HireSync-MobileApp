@@ -123,7 +123,7 @@ fun SignUp(modifier: Modifier,navController: NavController, viewModel: LoginView
                     PasswordField(password) { viewModel.onLoginChanged(email, it) }
                     NewPassword(newpassword){viewModel.onSignUpChanged(name, it)}
                     Spacer(modifier = Modifier.padding(16.dp))
-                    SingUpButton(navController)
+                    SingUpButton(viewModel,navController)
                     Spacer(modifier = Modifier.padding(16.dp))
                     TextFinal(navController, Modifier.align(Alignment.CenterHorizontally))
 
@@ -196,10 +196,14 @@ fun TextFinal(navController: NavController,modifier : Modifier){
 
 }
 @Composable
-fun SingUpButton(navController: NavController) {
+fun SingUpButton(viewModel: LoginViewModel, navController: NavController) {
+
+
     Button(
-        onClick = { navController.navigate(route = AppScreens.SignUpScreen.route)},
+        onClick = {
+            viewModel.register()},
         modifier = Modifier
+
             .fillMaxWidth()
             .height(48.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3172D4),
