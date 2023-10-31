@@ -124,7 +124,7 @@ fun LoginButton(navController: NavController, viewModel: ViewModelLogin) {
             if (email != null && password != null) {
                 viewModel.login()
                 if (isLoggedIn) {
-                    navController.navigate(route = AppScreens.ProfileScreen.route)
+                    navController.navigate(route = AppScreens.HomeScreen.route)
                 }
             }
         },
