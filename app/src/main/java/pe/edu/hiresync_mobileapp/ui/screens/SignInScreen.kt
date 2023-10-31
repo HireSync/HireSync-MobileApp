@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pe.edu.hiresync_mobileapp.R
 import pe.edu.hiresync_mobileapp.ui.navigation.AppScreens
-import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
 import pe.edu.hiresync_mobileapp.ui.viewModel.ViewModelLogin
 
 @Composable
@@ -114,14 +113,14 @@ fun Register(navController: NavController,modifier : Modifier){
 }
 @Composable
 fun LoginButton(navController: NavController, viewModel: ViewModelLogin) {
-    val isLoggedIn: Boolean by viewModel.isLoggedIn.observeAsState(initial = true)
+    val isLoggedIn: Boolean by viewModel.isLoggedIn.observeAsState(initial = false)
 
     Button(
         onClick = {
             val email = viewModel.email.value
             val password = viewModel.lastName.value
 
-            if (email != null && password != null) {
+            if (email !=null && password != null) {
                 viewModel.login()
                 if (isLoggedIn) {
                     navController.navigate(route = AppScreens.HomeScreen.route)
@@ -137,7 +136,7 @@ fun LoginButton(navController: NavController, viewModel: ViewModelLogin) {
             contentColor = Color.White
         )
     ) {
-        Text(text = "Login in")
+        Text(text = "Login")
     }
 }
 @Composable
