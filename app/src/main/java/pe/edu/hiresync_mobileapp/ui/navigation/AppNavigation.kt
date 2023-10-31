@@ -12,9 +12,10 @@ import pe.edu.hiresync_mobileapp.ui.screens.ProfileScreen
 import pe.edu.hiresync_mobileapp.ui.screens.SignUpScreen
 import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
 import pe.edu.hiresync_mobileapp.ui.viewModel.PostulationViewModel
+import pe.edu.hiresync_mobileapp.ui.viewModel.ViewModelLogin
 
 @Composable
-fun AppNavigation(viewModel: LoginViewModel, viewModel2: PostulationViewModel){
+fun AppNavigation(viewModel: LoginViewModel, viewModel2: PostulationViewModel, viewModel3: ViewModelLogin){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = AppScreens.SignInScreen.route) {
 
@@ -22,7 +23,7 @@ fun AppNavigation(viewModel: LoginViewModel, viewModel2: PostulationViewModel){
             SignUpScreen(navController,viewModel)
         }
         composable(route = AppScreens.SignInScreen.route) {
-            LoginScreen(navController, viewModel)
+            LoginScreen(navController, viewModel3)
         }
 
         composable(route=AppScreens.HomeScreen.route){

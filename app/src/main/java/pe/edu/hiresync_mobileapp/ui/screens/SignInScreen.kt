@@ -41,9 +41,10 @@ import androidx.navigation.NavController
 import pe.edu.hiresync_mobileapp.R
 import pe.edu.hiresync_mobileapp.ui.navigation.AppScreens
 import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
+import pe.edu.hiresync_mobileapp.ui.viewModel.ViewModelLogin
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: LoginViewModel){
+fun LoginScreen(navController: NavController, viewModel: ViewModelLogin){
     Box(
         Modifier
             .fillMaxSize()
@@ -54,10 +55,10 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel){
 }
 
 @Composable
-fun Login(modifier: Modifier,navController: NavController, viewModel: LoginViewModel) {
+fun Login(modifier: Modifier,navController: NavController, viewModel: ViewModelLogin) {
+
     val email : String by viewModel.email.observeAsState(initial = "")
-    val password: String by viewModel.password.observeAsState(initial ="")
-    val loginEnable: Boolean by viewModel.loginEnable.observeAsState(initial = false)
+    val lastName: String by viewModel.lastName.observeAsState(initial ="")
     val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
 
 
@@ -77,13 +78,13 @@ fun Login(modifier: Modifier,navController: NavController, viewModel: LoginViewM
             Spacer(modifier = Modifier.padding(32.dp))
             Signtext(Modifier.align(Alignment.CenterHorizontally))
             Spacer(modifier = Modifier.padding(16.dp))
-            EmailField(email) { viewModel.onLoginChanged(it, password) }
+            EmailField(email) { viewModel.onLoginChanged(it, lastName) }
             Spacer(modifier = Modifier.padding(4.dp))
-            PasswordField(password) { viewModel.onLoginChanged(email, it) }
+            PasswordField(lastName) { viewModel.onLoginChanged(email, it) }
             Spacer(modifier = Modifier.padding(8.dp))
             ForgotPassword(Modifier.align(Alignment.End))
             Spacer(modifier = Modifier.padding(16.dp))
-            LoginButton(navController)
+            LoginButton(navController, viewModel)
             Spacer(modifier = Modifier.padding(32.dp))
             Register(navController,Modifier.align(Alignment.CenterHorizontally))
 
@@ -112,19 +113,31 @@ fun Register(navController: NavController,modifier : Modifier){
 
 }
 @Composable
-fun LoginButton(navController: NavController) {
+fun LoginButton(navController: NavController, viewModel: ViewModelLogin) {
+    val isLoggedIn: Boolean by viewModel.isLoggedIn.observeAsState(initial = true)
+
     Button(
-        onClick = { navController.navigate(route = AppScreens.HomeScreen.route)},
+        onClick = {
+            val email = viewModel.email.value
+            val password = viewModel.lastName.value
+
+            if (email != null && password != null) {
+                viewModel.login()
+                if (isLoggedIn) {
+                    navController.navigate(route = AppScreens.HomeScreen.route)
+                }
+            }
+        },
         modifier = Modifier
             .fillMaxWidth()
             .height(48.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3172D4),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF3172D4),
             disabledContainerColor = Color(0xFF3172D4),
             contentColor = Color.White
         )
     ) {
         Text(text = "Login in")
-
     }
 }
 @Composable

@@ -35,11 +35,28 @@ class UserRepository(private val userService: UserService = ApiClient.getUserSer
         })
     }
 
+    fun login(email: String, lastName:String, callback: (Result<UserResponse>) -> Unit) {
+        val loginCall = userService.login(email, lastName)
+        loginCall.enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
+                    val userResponse = response.body()
+                    if (userResponse != null) {
+                        callback(Result.Success(userResponse))
+                    } else {
+                        callback(Result.Error("Response body is null"))
+                    }
+                } else {
+                    callback(Result.Error("Login failed: ${response.code()}"))
+                }
+            }
 
-
-
-
-
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                val message = t.message ?: "Unknown error occurred"
+                callback(Result.Error(message))
+            }
+        })
+    }
 
 }
 
