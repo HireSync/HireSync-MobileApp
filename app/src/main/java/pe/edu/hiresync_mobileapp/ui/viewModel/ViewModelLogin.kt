@@ -30,7 +30,10 @@ class ViewModelLogin(private val userRepository: UserRepository = UserRepository
         val lastName = _lastName.value
         userRepository.login(email!!, lastName!!){result->
             if (result is Result.Success) {
-                _isLoggedIn.value = true
+                val users = result.data
+                if(!users.isNullOrEmpty()){
+                    _isLoggedIn.value = true
+                }
             }
         }
     }
