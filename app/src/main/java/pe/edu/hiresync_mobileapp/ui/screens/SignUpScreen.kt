@@ -201,9 +201,10 @@ fun SingUpButton(viewModel: LoginViewModel, navController: NavController) {
 
     Button(
         onClick = {
-            viewModel.register()},
+            viewModel.register()
+            navController.navigate(route = AppScreens.SignInScreen.route)
+                  },
         modifier = Modifier
-
             .fillMaxWidth()
             .height(48.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3172D4),
