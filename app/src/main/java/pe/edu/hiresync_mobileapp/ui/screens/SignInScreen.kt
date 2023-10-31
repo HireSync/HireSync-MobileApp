@@ -114,7 +114,7 @@ fun Register(navController: NavController,modifier : Modifier){
 }
 @Composable
 fun LoginButton(navController: NavController, viewModel: ViewModelLogin) {
-    val isLoggedIn: Boolean by viewModel.isLoggedIn.observeAsState(initial = false)
+    val isLoggedIn: Boolean by viewModel.isLoggedIn.observeAsState(initial = true)
 
     Button(
         onClick = {
