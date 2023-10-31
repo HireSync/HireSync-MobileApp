@@ -13,9 +13,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -70,6 +72,9 @@ fun PostulationsScreen(navController: NavController, viewModel: PostulationViewM
 fun PostulationCard(postulation: Postulation, navController: NavController) {
     val isApplied = remember { mutableStateOf(false) }
     isApplied.value = postulation.isApplied
+
+    val openAlertDialog = remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -109,26 +114,16 @@ fun PostulationCard(postulation: Postulation, navController: NavController) {
                     }
                 }
                 Text(text = postulation.description, fontSize = 14.sp, color = Color.Gray)
-                Text(
-                    text = "Application Date: ${postulation.applicationDate}",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
 
                 // Detalles adicionales
-                Text(text = "Location: ${postulation.location}", fontSize = 12.sp, color = Color.Gray)
-                Text(text = "Salary: ${postulation.salary}", fontSize = 12.sp, color = Color.Gray)
-                Text(
-                    text = "Contract Type: ${postulation.contractType}",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
                 Row(modifier = Modifier.padding(top = 8.dp)) {
                     Button(
-                        onClick = { },
+                        onClick = {
+                            openAlertDialog.value = true
+                        },
                         colors = ButtonDefaults.buttonColors(Color(0xFF3172D4))
                     ) {
-                        Text(text = "View Details", color = Color.White) // Color del texto en blanco
+                        Text(text = "View Details", color = Color.White)
                     }
 
                     TextButton(
@@ -145,7 +140,58 @@ fun PostulationCard(postulation: Postulation, navController: NavController) {
             }
         }
     }
+
+    when{
+        openAlertDialog.value -> {
+            AlertDialogExample(
+                onDismissRequest = {
+                    openAlertDialog.value = false
+                },
+                postulation = postulation
+            )
+        }
+    }
 }
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AlertDialogExample(
+    onDismissRequest: () -> Unit,
+    postulation: Postulation,
+) {
+    AlertDialog(
+        title = {
+            Text(text = postulation.name)
+        },
+        text = {
+            Column {
+                Text(text = "Requirements: \n\t${postulation.requirements}")
+                Text(text = "Contract Type: \n\t${postulation.contractType}")
+                Text(text = "Position:\n\t${postulation.position}")
+                Text(text = "Location:\n\t${postulation.location}")
+                Text(text = "Salary:\n\t${postulation.salary}")
+                Text(text = "Application Date: \n\t${postulation.applicationDate}")
+            }
+
+        },
+        onDismissRequest = {
+            onDismissRequest()
+        },
+        confirmButton = {
+        },
+        dismissButton = {
+            TextButton(
+                onClick = {
+                    onDismissRequest()
+                }
+            ) {
+                Text("Confirm")
+            }
+        }
+    )
+}
+
 
 /*
 @Composable
