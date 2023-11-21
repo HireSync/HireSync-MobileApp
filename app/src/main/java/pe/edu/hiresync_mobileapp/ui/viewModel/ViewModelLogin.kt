@@ -11,8 +11,8 @@ class ViewModelLogin(private val userRepository: UserRepository = UserRepository
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
 
-    private val _lastName = MutableLiveData<String>()
-    val lastName: LiveData<String> = _lastName
+    private val _password = MutableLiveData<String>()
+    val password: LiveData<String> = _password
 
     private val _isLoggedIn = MutableLiveData<Boolean>()
     val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
@@ -20,15 +20,15 @@ class ViewModelLogin(private val userRepository: UserRepository = UserRepository
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun onLoginChanged(email: String, lastName: String) {
+    fun onLoginChanged(email: String, password: String) {
         _email.value = email
-        _lastName.value = lastName
+        _password.value = password
     }
 
     fun login() {
         val email = _email.value
-        val lastName = _lastName.value
-        userRepository.login(email!!, lastName!!){result->
+        val password = _password.value
+        userRepository.login(email!!, password!!){result->
             if (result is Result.Success) {
                 val users = result.data
                 if(!users.isNullOrEmpty()){

@@ -57,7 +57,7 @@ fun LoginScreen(navController: NavController, viewModel: ViewModelLogin){
 fun Login(modifier: Modifier,navController: NavController, viewModel: ViewModelLogin) {
 
     val email : String by viewModel.email.observeAsState(initial = "")
-    val lastName: String by viewModel.lastName.observeAsState(initial ="")
+    val password: String by viewModel.password.observeAsState(initial ="")
     val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
 
 
@@ -77,9 +77,9 @@ fun Login(modifier: Modifier,navController: NavController, viewModel: ViewModelL
             Spacer(modifier = Modifier.padding(32.dp))
             Signtext(Modifier.align(Alignment.CenterHorizontally))
             Spacer(modifier = Modifier.padding(16.dp))
-            EmailField(email) { viewModel.onLoginChanged(it, lastName) }
+            EmailField(email) { viewModel.onLoginChanged(it, password) }
             Spacer(modifier = Modifier.padding(4.dp))
-            PasswordField(lastName) { viewModel.onLoginChanged(email, it) }
+            PasswordField(password) { viewModel.onLoginChanged(email, it) }
             Spacer(modifier = Modifier.padding(8.dp))
             ForgotPassword(Modifier.align(Alignment.End))
             Spacer(modifier = Modifier.padding(16.dp))
@@ -118,7 +118,7 @@ fun LoginButton(navController: NavController, viewModel: ViewModelLogin) {
     Button(
         onClick = {
             val email = viewModel.email.value
-            val password = viewModel.lastName.value
+            val password = viewModel.password.value
 
             if (email !=null && password != null) {
                 viewModel.login()
