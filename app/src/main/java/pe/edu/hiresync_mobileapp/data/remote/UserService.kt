@@ -14,5 +14,5 @@ interface UserService {
     fun register(@Body userRequest: UserRequest): Call<UserResponse>
 
     @GET("users")
-    fun login(@Query("email") email: String, @Query("lastName")lastName: String): Call<List<UserResponse>>
+    fun login(@Query("email") email: String, @Query("password")lastName: String): Call<List<UserResponse>>
 }
