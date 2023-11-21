@@ -35,8 +35,8 @@ class UserRepository(private val userService: UserService = ApiClient.getUserSer
         })
     }
 
-    fun login(email: String, lastName:String, callback: (Result<List<UserResponse>>) -> Unit) {
-        val loginCall = userService.login(email, lastName)
+    fun login(email: String, password:String, callback: (Result<List<UserResponse>>) -> Unit) {
+        val loginCall = userService.login(email, password)
         loginCall.enqueue(object : Callback<List<UserResponse>> {
             override fun onResponse(call: Call<List<UserResponse>>, response: Response<List<UserResponse>>) {
                 if (response.isSuccessful) {
