@@ -58,6 +58,29 @@ class UserRepository(private val userService: UserService = ApiClient.getUserSer
         })
     }
 
+    fun editProfile(userId: String, updatedProfile: UserRequest, callback: (Result<UserResponse>) -> Unit) {
+        val editProfileCall = userService.updateUser(userId, updatedProfile)
+        editProfileCall.enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
+                    val userResponse = response.body()
+                    if (userResponse != null) {
+                        callback(Result.Success(userResponse))
+                    } else {
+                        callback(Result.Error("Response body is null"))
+                    }
+                } else {
+                    callback(Result.Error("Edit profile failed: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                val message = t.message ?: "Unknown error occurred"
+                callback(Result.Error(message))
+            }
+        })
+    }
+
 }
 
 
