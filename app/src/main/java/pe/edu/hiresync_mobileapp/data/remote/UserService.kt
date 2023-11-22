@@ -15,4 +15,11 @@ interface UserService {
 
     @GET("users")
     fun login(@Query("email") email: String, @Query("password")lastName: String): Call<List<UserResponse>>
+
+    @PUT("users/{userId}")
+    fun updateUser(
+        @Path("userId") userId: String,
+        @Body updatedUser: UserRequest
+    ): Call<UserResponse>
+
 }
