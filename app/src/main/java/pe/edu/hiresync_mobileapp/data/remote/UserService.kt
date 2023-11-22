@@ -18,7 +18,7 @@ interface UserService {
 
     @PUT("users/{userId}")
     fun updateUser(
-        @Path("userId") userId: String,
+        @Path("userId") userId: Int,
         @Body updatedUser: UserRequest
     ): Call<UserResponse>
 
