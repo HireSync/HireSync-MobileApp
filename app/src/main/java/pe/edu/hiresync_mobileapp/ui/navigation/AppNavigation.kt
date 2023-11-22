@@ -35,9 +35,7 @@ fun AppNavigation(viewModel: LoginViewModel, viewModel2: PostulationViewModel, v
         }
 
         composable(route=AppScreens.ProfileScreen.route){
-            ProfileScreen(navController, viewModel)
+            ProfileScreen(navController, viewModel3)
         }
     }
 }
-
-
