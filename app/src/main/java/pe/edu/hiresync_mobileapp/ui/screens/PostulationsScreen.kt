@@ -1,47 +1,41 @@
 package pe.edu.hiresync_mobileapp.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.AlertDialog
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import pe.edu.hiresync_mobileapp.R
+import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import pe.edu.hiresync_mobileapp.data.model.Postulation
-import pe.edu.hiresync_mobileapp.ui.viewModel.PostulationViewModel
+import pe.edu.hiresync_mobileapp.data.model.UserRequest
+import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
+import pe.edu.hiresync_mobileapp.ui.viewModel.ViewModelLogin
 
 @Composable
-fun PostulationsScreen(navController: NavController, viewModel: PostulationViewModel) {
+fun ProfileScreen(navController: NavController, viewModel: ViewModelLogin){
+    var receiveNews by remember { mutableStateOf(false) }
 
-    val postulations: List<Postulation> by viewModel.postulations.observeAsState(listOf())
-    viewModel.getAll()
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -57,254 +51,255 @@ fun PostulationsScreen(navController: NavController, viewModel: PostulationViewM
         ) {
             NavBar(navController)
         }
-        Column{
-            LazyColumn {
-                items(postulations) { postulation ->
-                    PostulationCard(postulation, navController)
-                }
+        Image(
+            painter = painterResource(id = R.drawable.profilepicture),
+            contentDescription = null,
+            modifier = Modifier
+                .size(120.dp)
+                .clip(CircleShape)
+                .background(Color.Gray)
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+
+        Button(
+
+            onClick = { },
+
+            modifier = Modifier
+                .height(48.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3172D4),
+                disabledContainerColor = Color(0xFF3172D4),
+                contentColor = Color.White
+            )
+        ) {
+            Text(text = "Change profile picture")
+        }
+        Text(
+            text = "Elizabeth James",
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF6650a4),
+            modifier = Modifier.padding(top = 8.dp)
+        )
+        ProfileUpdateCard(viewModel)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Checkbox(
+                checked = receiveNews,
+                onCheckedChange = { isChecked ->
+                    receiveNews = isChecked
+                },
+                modifier = Modifier.padding(end = 8.dp)
+            )
+            Text(
+                text = "I want to receive news from HireSync via email",
+                fontSize = 16.sp
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Button(
+                onClick = { /* Handle Profile Settings click */ },
+                modifier = Modifier
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3172D4),
+                    disabledContainerColor = Color(0xFF3172D4),
+                    contentColor = Color.White
+                )
+            ) {
+                Text(text = "Profile Settings")
+            }
+            Button(
+                onClick = { /* Handle App Settings click */ },
+                modifier = Modifier
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3172D4),
+                    disabledContainerColor = Color(0xFF3172D4),
+                    contentColor = Color.White
+                )
+            ) {
+                Text(text = "App Settings")
             }
         }
     }
-
 }
 
 @Composable
-fun PostulationCard(postulation: Postulation, navController: NavController) {
-    val isApplied = remember { mutableStateOf(false) }
-    isApplied.value = postulation.isApplied
-
-    val openAlertDialog = remember { mutableStateOf(false) }
-
-    Column(
+fun ProfileUpdateCard(viewModel: ViewModelLogin) {
+    var name by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("")}
+    var confirmpass by remember { mutableStateOf("")}
+    var currentpass by remember { mutableStateOf("")}
+    var newpass by remember { mutableStateOf("")}
+    var phone by remember { mutableStateOf("")}
+    Card(
         modifier = Modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth()
+            .padding(vertical = 16.dp)
+            .background(Color.White)
     ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .background(Color.White)
-                .border(1.dp, Color.Gray, shape = RoundedCornerShape(8.dp))
-                //.clickable { }
-                .shadow(4.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
+                    .weight(1f)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = postulation.name,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                    if (isApplied.value) {
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = "Applied",
-                            tint = Color.Green
-                        )
-                    }
-                }
-                Text(text = postulation.description, fontSize = 14.sp, color = Color.Gray)
-
-                // Detalles adicionales
-                Row(modifier = Modifier.padding(top = 8.dp)) {
-                    Button(
-                        onClick = {
-                            openAlertDialog.value = true
-                        },
-                        colors = ButtonDefaults.buttonColors(Color(0xFF3172D4))
-                    ) {
-                        Text(text = "View Details", color = Color.White)
-                    }
-
-                    TextButton(
-                        onClick = {
-                            if (!isApplied.value) {
-                                isApplied.value = true
-                            }
-                        },
-                        colors = ButtonDefaults.textButtonColors(contentColor = Color(0xFF3172D4))
-                    ) {
-                        Text(text = "Apply", color = Color(0xFF3172D4))
-                    }
-                }
-            }
-        }
-    }
-
-    when{
-        openAlertDialog.value -> {
-            AlertDialogExample(
-                onDismissRequest = {
-                    openAlertDialog.value = false
-                },
-                postulation = postulation
-            )
-        }
-    }
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AlertDialogExample(
-    onDismissRequest: () -> Unit,
-    postulation: Postulation,
-) {
-    AlertDialog(
-        title = {
-            Text(text = postulation.name)
-        },
-        text = {
-            Column {
-                Text(text = "Requirements: \n\t${postulation.requirements}")
-                Text(text = "Contract Type: \n\t${postulation.contractType}")
-                Text(text = "Position:\n\t${postulation.position}")
-                Text(text = "Location:\n\t${postulation.location}")
-                Text(text = "Salary:\n\t${postulation.salary}")
-                Text(text = "Application Date: \n\t${postulation.applicationDate}")
-            }
-
-        },
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        confirmButton = {
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text("Confirm")
-            }
-        }
-    )
-}
-
-
-/*
-@Composable
-fun CompanyCard(
-    name: String,
-    description: String,
-    recruitmentStatus: String,
-    applicationDate: String
-) {
-    Card(
-        modifier = Modifier.padding(20.dp),
-        shape = RectangleShape,
-        border = BorderStroke(1.dp, Color.Black)
-    ) {
-        Column(
-            modifier = Modifier
-                .wrapContentHeight()
-                .background(Color.White),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row {
                 Text(
-                    text = "Company: $name",
+                    text = "Name:",
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(5.dp)
+                    fontSize = 14.sp,
+                    color = Color.Black
                 )
-                Icon(
-                    Icons.Default.KeyboardArrowDown,
-                    null,
-                    modifier = Modifier.padding(4.dp),
-                    tint = Color.Black
+                BasicTextField(
+                    value = name,
+                    onValueChange = { newName ->
+                        name = newName
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                        .border(1.dp, Color.Black)
+                )
+                Text(
+                    text = "Email:",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+                BasicTextField(
+                    value = email,
+                    onValueChange = { Email ->
+                        email = Email
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                        .border(1.dp, Color.Black)
+                )
+
+                Text(
+                    text = "Confirm Password:",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+                BasicTextField(
+                    value = confirmpass,
+                    onValueChange = { Confirm ->
+                        confirmpass = Confirm
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                        .border(1.dp, Color.Black)
                 )
             }
-            Divider(
-                color = Color.Gray,
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            )
-            Card(
-                colors = CardDefaults.cardColors(containerColor = Color(0xFF3172D4)),
-                modifier = Modifier
-                    .padding(horizontal = 25.dp)
-                    .fillMaxWidth()
-                    .height(65.dp)
+                    .padding(16.dp)
+                    .weight(1f)
             ) {
-                Column {
-                    Text(
-                        text = "Description:",
-                        color = Color.White,
-                        fontSize = 13.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 1.dp)
-                    )
-                    Text(
-                        text = description,
-                        color = Color.White,
-                        fontSize = 15.sp,
-                        lineHeight = 15.sp,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 1.dp)
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFF3172D4)),
+                Text(
+                    text = "Current Password:",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+                BasicTextField(
+                    value = currentpass,
+                    onValueChange = { Current ->
+                        currentpass = Current
+                    },
                     modifier = Modifier
-                        .padding(4.dp)
-                        .height(50.dp)
-                ) {
-                    Column{
-                        Text(
-                            text = "Recruitment Status:",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 1.dp)
-                        )
-                        Text(
-                            text = recruitmentStatus,
-                            color = Color.White,
-                            fontSize = 15.sp,
-                            lineHeight = 15.sp,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 1.dp)
-                        )
-                    }
-                }
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFF3172D4)),
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                        .border(1.dp, Color.Black)
+                )
+                Text(
+                    text = "New Password:",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+                BasicTextField(
+                    value = newpass,
+                    onValueChange = { NewPass ->
+                        newpass = NewPass
+                    },
                     modifier = Modifier
-                        .padding(4.dp)
-                        .height(50.dp)
-                ) {
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = "Application Date:",
-                            color = Color.White,
-                            textAlign = TextAlign.Center,
-                            fontSize = 12.sp,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 1.dp)
-                        )
-                        Text(
-                            text = applicationDate,
-                            color = Color.White,
-                            textAlign = TextAlign.Center,
-                            lineHeight = 15.sp,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 1.dp)
-                        )
-                    }
-                }
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                        .border(1.dp, Color.Black)
+                )
+                Text(
+                    text = "Phone Number:",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+
+                )
+                BasicTextField(
+                    value = phone,
+                    onValueChange = { newPhone ->
+                        // Validar que el nuevo valor ingresado sea numérico
+                        if (newPhone.all { it.isDigit() }) {
+                            phone = newPhone
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                        .border(1.dp, Color.Black),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
             }
         }
+        Row(
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .align(Alignment.CenterHorizontally) // Centrar horizontalmente
+        ) {
+            Button(
+                onClick = {
+                    val updatedProfile = UserRequest(
+                        firstName = name,
+                        password = email,
+                        email = confirmpass,
+                        // Otros campos según sea necesario (confirmpass, currentpass, newpass, phone)
+                    )
+                    viewModel.editProfile(updatedProfile)
+                },
+                modifier = Modifier
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF3172D4),
+                    disabledContainerColor = Color(0xFF3172D4),
+                    contentColor = Color.White
+                )
+            ) {
+                Text(
+                    text = "Save Changes",
+                    color = Color.White
+                )
+            }
+        }
+
     }
-}*/
+}
