@@ -282,6 +282,7 @@ fun ProfileUpdateCard(viewModel: ViewModelLogin) {
                         firstName = name,
                         email = email,
                         password = confirmpass,
+                        phone = phone.toInt()
                         // Otros campos segÃºn sea necesario (confirmpass, currentpass, newpass, phone)
                     )
                     viewModel.editProfile(updatedProfile)

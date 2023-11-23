@@ -25,6 +25,8 @@ class LoginViewModel(val userRepository: UserRepository = UserRepository()) : Vi
     val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
 
 
+    private val _phone = MutableLiveData<Int>()
+    val phone: LiveData<Int> = _phone
 
 
     private val _loginEnable = MutableLiveData<Boolean>()
@@ -60,7 +62,7 @@ class LoginViewModel(val userRepository: UserRepository = UserRepository()) : Vi
 
     fun register() {
 
-        val userRequest = UserRequest(name.value!!, password.value!!, email.value!!)
+        val userRequest = UserRequest(name.value!!, password.value!!, email.value!!, phone.value!!)
         userRepository.register(userRequest) {
 
         }
