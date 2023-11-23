@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface PostulationService {
-    @GET("phases")
+    @GET("all-recruitments")
     fun getAll(): Call<PostulationResponse>
+
 }
