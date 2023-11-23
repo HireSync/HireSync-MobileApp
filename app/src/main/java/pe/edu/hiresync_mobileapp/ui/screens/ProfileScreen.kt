@@ -28,10 +28,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import pe.edu.hiresync_mobileapp.data.model.UserRequest
 import pe.edu.hiresync_mobileapp.ui.viewModel.LoginViewModel
+import pe.edu.hiresync_mobileapp.ui.viewModel.ViewModelLogin
 
 @Composable
-fun ProfileScreen(navController: NavController, viewModel: LoginViewModel){
+fun ProfileScreen(navController: NavController, viewModel: ViewModelLogin){
     var receiveNews by remember { mutableStateOf(false) }
 
     Column(
@@ -79,7 +81,7 @@ fun ProfileScreen(navController: NavController, viewModel: LoginViewModel){
             color = Color(0xFF6650a4),
             modifier = Modifier.padding(top = 8.dp)
         )
-        ProfileUpdateCard()
+        ProfileUpdateCard(viewModel)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -132,7 +134,7 @@ fun ProfileScreen(navController: NavController, viewModel: LoginViewModel){
 }
 
 @Composable
-fun ProfileUpdateCard() {
+fun ProfileUpdateCard(viewModel: ViewModelLogin) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("")}
     var confirmpass by remember { mutableStateOf("")}
@@ -253,7 +255,7 @@ fun ProfileUpdateCard() {
                 BasicTextField(
                     value = phone,
                     onValueChange = { newPhone ->
-                        // Validar que el nuevo valor ingresado sea numérico
+                        // Validar que el nuevo valor ingresado sea numÃ©rico
                         if (newPhone.all { it.isDigit() }) {
                             phone = newPhone
                         }
@@ -275,7 +277,15 @@ fun ProfileUpdateCard() {
                 .align(Alignment.CenterHorizontally) // Centrar horizontalmente
         ) {
             Button(
-                onClick = { },
+                onClick = {
+                    val updatedProfile = UserRequest(
+                        firstName = name,
+                        email = email,
+                        password = confirmpass,
+                        // Otros campos segÃºn sea necesario (confirmpass, currentpass, newpass, phone)
+                    )
+                    viewModel.editProfile(updatedProfile)
+                },
                 modifier = Modifier
                     .height(48.dp),
                 colors = ButtonDefaults.buttonColors(

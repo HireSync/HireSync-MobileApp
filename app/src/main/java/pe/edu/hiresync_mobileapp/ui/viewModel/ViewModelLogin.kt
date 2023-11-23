@@ -3,6 +3,8 @@ package pe.edu.hiresync_mobileapp.ui.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import pe.edu.hiresync_mobileapp.data.model.UserRequest
+import pe.edu.hiresync_mobileapp.data.model.UserResponse
 import pe.edu.hiresync_mobileapp.repository.UserRepository
 import pe.edu.hiresync_mobileapp.utils.Result
 

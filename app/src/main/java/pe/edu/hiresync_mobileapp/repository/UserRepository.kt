@@ -58,7 +58,7 @@ class UserRepository(private val userService: UserService = ApiClient.getUserSer
         })
     }
 
-    fun editProfile(userId: String, updatedProfile: UserRequest, callback: (Result<UserResponse>) -> Unit) {
+    fun editProfile(userId: Int, updatedProfile: UserRequest, callback: (Result<UserResponse>) -> Unit) {
         val editProfileCall = userService.updateUser(userId, updatedProfile)
         editProfileCall.enqueue(object : Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
